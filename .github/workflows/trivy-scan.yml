@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
+      
       - name: Build an image from Dockerfile
         run: |
           docker build -t docker.io/gkyar/dvpwa:${{ github.sha }} .
@@ -29,14 +29,6 @@ jobs:
           format: 'template'
           template: '@/contrib/sarif.tpl'
           output: 'sarif-output/trivy-results-docker.sarif'
-
-      - name: Run Trivy vulnerability scanner in fs mode
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs'
-          format: 'template'
-          template: '@/contrib/sarif.tpl'
-          output: 'sarif-output/trivy-results-fs.sarif'          
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v1
