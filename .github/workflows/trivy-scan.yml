@@ -24,30 +24,17 @@ jobs:
           image-ref: 'docker.io/gkyar/dvpwa:${{ github.sha }}'
           format: 'template'
           template: '@/contrib/sarif.tpl'
-          output: 'trivy-results-docker.sarif'
-
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v1
-        with:
-          sarif_file: 'trivy-results-docker.sarif'
+          output: 'sarif-output/trivy-results-docker.sarif'
 
       - name: Run Trivy vulnerability scanner in fs mode
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
-          # ignore-unfixed: true
           format: 'template'
           template: '@/contrib/sarif.tpl'
-          output: 'trivy-results-fs.sarif'
-          # severity: 'CRITICAL'
-          # skip-dirs: "ignored-dir"
+          output: 'trivy-results-fs.sarif'          
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v1
         with:
-          sarif_file: 'trivy-results-fs.sarif'
-
-      - name: DEBUG Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v1
-        with:
-          sarif_file: 'debug-trivy-results.sarif'
+          sarif_file: 'sarif-output'
